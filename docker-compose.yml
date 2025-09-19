@@ -1,0 +1,29 @@
+services:
+  hpl-container:
+    build: .
+    container_name: hpl-tf-container
+    volumes:
+      # Mount the project directory
+      - .:/workspace
+      # Mount datasets directory for data persistence
+      - ./datasets:/workspace/datasets
+      # Mount results directory for output persistence
+      - ./results:/workspace/results
+      # Mount data_model_output for model persistence
+      - ./data_model_output:/workspace/data_model_output
+      # Mount utilities for utility scripts
+      - ./utilities:/workspace/utilities
+    environment:
+      - PYTHONPATH=/workspace
+      - CUDA_VISIBLE_DEVICES=0
+    stdin_open: true
+    tty: true
+    # Uncomment the following lines if you need GPU support
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    working_dir: /workspace
